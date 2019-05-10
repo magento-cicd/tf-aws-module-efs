@@ -8,7 +8,7 @@
 module "efs" {
   name = "efs-module-test-default"
 
-  source = "../../module"
+  source = "../../modules/efs"
 
   vpc_id = ""
 
