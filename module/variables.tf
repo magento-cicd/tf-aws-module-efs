@@ -1,11 +1,5 @@
-variable "encrypted" {
-  description = "(Optional) If true, the disk will be encrypted."
-  default     = false
-}
-
 variable "kms_key_id" {
-  description = "(Optional) The ARN for the KMS encryption key. When specifying kms_key_id, encrypted needs to be set to true."
-  default     = ""
+  description = "The ARN for the KMS encryption key. Not Optional."
 }
 
 variable "creation_token" {

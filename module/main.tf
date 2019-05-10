@@ -7,21 +7,21 @@
 #---------------
 # Note: Cannot have EFS assigned to subnets in multiple VPCs.
 # To mount in another VPC remove all existing VPC mounts, then ones from other VPC.
-resource "aws_efs_file_system" "main" {
+resource "aws_efs_file_system" "efs" {
   creation_token                  = "${var.creation_token}"
-  encrypted                       = "${var.encrypted}"
+  encrypted                       = true
   kms_key_id                      = "${var.kms_key_id}"
   performance_mode                = "${var.performance_mode}"
   provisioned_throughput_in_mibps = "${var.provisioned_throughput_in_mibps}"
   throughput_mode                 = "${var.throughput_mode}"
-  tags                            = "${merge(map("Name", "${var.name}"), var.tags)}"
+  tags                            = "${merge(map("Name", "${var.name}"),map("Terraform", "true"), var.tags)}"
 }
 
 # Create EFS mount targets in var.subnet_ids
-resource "aws_efs_mount_target" "main" {
+resource "aws_efs_mount_target" "efs" {
   count = "${length(var.subnet_ids)}"
 
-  file_system_id = "${aws_efs_file_system.main.id}"
+  file_system_id = "${aws_efs_file_system.efs.id}"
   subnet_id      = "${element(var.subnet_ids, count.index)}"
 
   security_groups = [
@@ -38,6 +38,10 @@ resource "aws_security_group" "efs" {
   description = "Allow NFS traffic"
   vpc_id      = "${var.vpc_id}"
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   ingress {
     from_port = 2049
     to_port   = 2049
@@ -50,5 +54,5 @@ resource "aws_security_group" "efs" {
     protocol  = "tcp"
   }
 
-  tags = "${merge(map("Name", "${var.name}-efs-mount"), var.tags)}"
+  tags = "${merge(map("Name", "${var.name}-efs-mount"),map("Terraform", "true"), var.tags)}"
 }
