@@ -8,9 +8,12 @@
 # Note: Cannot have EFS assigned to subnets in multiple VPCs.
 # To mount in another VPC remove all existing VPC mounts, then ones from other VPC.
 resource "aws_efs_file_system" "efs" {
-  creation_token                  = "${var.creation_token}"
-  encrypted                       = true
-  kms_key_id                      = "${var.kms_key_id}"
+  creation_token = "${var.creation_token}"
+  encrypted      = true
+
+  # Its looking for the kms key ARN when it asks for kms_key_id. Issue with efs_file_system terraform resource
+  kms_key_id = "${var.kms_key_id}"
+
   performance_mode                = "${var.performance_mode}"
   provisioned_throughput_in_mibps = "${var.provisioned_throughput_in_mibps}"
   throughput_mode                 = "${var.throughput_mode}"
