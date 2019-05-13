@@ -10,7 +10,9 @@
 
 ### Using EFS with Docker on ECS
 
-You can mount EFS via NFS directly to containers using Docker's local volume driver
+You can mount EFS via NFS directly to containers using Docker's local volume driver.
+
+Use the "Amazon Ec2 mount instructions" information from the console to get the values needed for volume configuration in the Task Definition.
 
 Task Definition Example
 
