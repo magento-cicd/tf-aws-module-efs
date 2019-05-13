@@ -8,9 +8,58 @@ This module is used to:
 
 ## Known Issues
 
-The `efs_mount_target resource` in the terraform AWS provider is known to occasionally timeout when creating EFS Mount Targets.
-Unfortunately the `efs_mount_target` resource does not support a `timeout{}` block in our testing.
-To resolve this, simply, re-run the `terraform apply` command. This has not failed us yet.
+Occasional timeouts when creating terraform resources are expected depending on the speed of the AWS API that day, simply, re-run the `terraform apply` command.
+
+## How NFS Clients Access the EFS Mount Targets
+
+Module output includes the default security group of the EFS Target Mounts: `module.efs.efs_security_group_id`
+
+Default rules: `tcp` `2049` `ingres` & `egress` to/from `self`
+
+To allow NFS traffic between EFS mount targets and clients there are two options:
+
+1. Grant clients access by attaching the security group output by this module to them `module.efs.efs_security_group_id`.
+   1. This will allow `tcp` `2049` `to`/`from` all resources this group is attached to.
+   2. Use the method below ([How to Add Additional Security Group Rules](#how-to-add-additional-security-group-rules)) to add custom rules to the default security group.
+
+### How to Add Additional Security Group Rules
+
+To add additional security group rules to the EFS Mount Target Security Group in the EFS File System, you can use the
+[aws_security_group_rule](https://www.terraform.io/docs/providers/aws/r/security_group_rule.html) resource, and set its
+`security_group_id` argument to the Terraform output of this module called `efs_security_group_id`. For
+example, here is how you can allow NFS traffic (tcp 2049) ingress to the EFS Mount Targets from another security
+group defined outside this module.
+
+```hcl
+# This EFS Module
+module "efs" {
+  # (arguments omitted)
+}
+
+#Grant NFS ingress to EFS from another security group source
+resource "aws_security_group_rule" "allow_nfs_from_other_sg" {
+  type      = "ingress"
+  from_port = 2049
+  to_port   = 2049
+  protocol  = "tcp"
+  source_security_group_id = "${var.some_other_security_group_id}"
+
+  security_group_id = "${module.ecs_cluster.efs_security_group_id}"
+}
+
+#Grant NFS ingress access from a CIDR block
+resource "aws_security_group_rule" "allow_nfs_from_other_sg" {
+  type        = "ingress"
+  from_port   = 2049
+  to_port     = 2049
+  protocol    = "tcp"
+  cidr_blocks = ["10.11.12.13/14"]
+
+  security_group_id = "${module.ecs_cluster.efs_security_group_id}"
+}
+
+
+```
 
 ## Inputs
 
