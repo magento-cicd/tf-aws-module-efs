@@ -4,17 +4,17 @@
 
 output "efs_arn" {
   description = "Amazon Resource Name of the file system."
-  value       = "${aws_efs_mount_target.efs.0.dns_name}"
+  value       = "${aws_efs_file_system.efs.arn}"
 }
 
 output "efs_id" {
   description = "The ID that identifies the file system (e.g. fs-ccfc0d65)."
-  value       = "${aws_efs_mount_target.efs.0.dns_name}"
+  value       = "${aws_efs_file_system.efs.id}"
 }
 
 output "efs_dns_name" {
   description = "The DNS name for the filesystem per documented convention."
-  value       = "${aws_efs_mount_target.efs.0.dns_name}"
+  value       = "${aws_efs_file_system.efs.dns_name}"
 }
 
 output "mount_target_dns" {
