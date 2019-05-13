@@ -30,13 +30,6 @@ resource "aws_efs_mount_target" "efs" {
   security_groups = [
     "${aws_security_group.efs.id}",
   ]
-
-  # In testing EFS mounts can sometimes take longer than 10m default timeout.
-  # to fix simply rerun appy statement.
-  timeouts {
-    create = "15m"
-    delete = "10m"
-  }
 }
 
 #----------------------------------------
