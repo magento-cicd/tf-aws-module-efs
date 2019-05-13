@@ -11,21 +11,21 @@
 # These variables are expected to be passed in by the operator
 # ---------------------------------------------------------------------------------------------------------------------
 variable "aws_region" {
-  description = ""
+  type = "string"
 }
 
 variable "kms_key_id" {
-  description = ""
+  type = "string"
 }
 
 variable "name" {
-  description = ""
+  type = "string"
 }
 
 variable "subnet_ids" {
-  description = ""
+  type = "list"
 }
 
 variable "vpc_id" {
-  description = ""
+  type = "string"
 }
