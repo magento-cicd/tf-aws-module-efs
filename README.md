@@ -1,5 +1,7 @@
-# Terraform Module Repo for AWS Elastic File System
+# Terraform Module for AWS Elastic File System (EFS)
 
-Modules
+Folders
 
-* [efs - elastic file system](modules/efs/README.md)
+* **modules**  - Module code.
+* **examples** - Examples of module implementation. Also used in tests.
+* **tests**    - Location of terratest tests.
