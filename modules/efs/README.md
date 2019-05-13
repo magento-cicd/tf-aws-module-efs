@@ -6,6 +6,12 @@ This module is used to:
 2. Create mount targets in subnets for client access
 3. Create a default EFS mount target security group allowing NFS traffic to/from that group
 
+## Known Issues
+
+The `efs_mount_target resource` in the terraform AWS provider is known to occasionally timeout when creating EFS Mount Targets.
+Unfortunately the `efs_mount_target` resource does not support a `timeout{}` block in our testing.
+To resolve this, simply, re-run the `terraform apply` command. This has not failed us yet.
+
 ## Inputs
 
 | Name                               | Description                                                                                                                                                                 |  Type  |      Default       | Required |
@@ -31,4 +37,3 @@ This module is used to:
 | mount\_target\_dns                     | Address of the mount target provisioned.                                 |
 | mount\_target\_ids                     | List of mount target AWS resource IDs                                    |
 | mount\_target\_network\_interface\_ids | List of mount target network interface ids.                              |
-
