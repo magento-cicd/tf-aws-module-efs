@@ -41,21 +41,25 @@ resource "aws_security_group" "efs" {
   description = "Allow NFS traffic"
   vpc_id      = "${var.vpc_id}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  ingress {
-    from_port = 2049
-    to_port   = 2049
-    protocol  = "tcp"
-  }
-
-  egress {
-    from_port = 2049
-    to_port   = 2049
-    protocol  = "tcp"
-  }
-
   tags = "${merge(map("Name", "${var.name}-efs-mount"),map("Terraform", "true"), var.tags)}"
+}
+
+resource "aws_security_group_rule" "nfs_ingress" {
+  type              = "ingress"
+  from_port         = 2049
+  to_port           = 2049
+  protocol          = "tcp"
+  self              = true
+  security_group_id = "${aws_security_group.efs.id}"
+  description       = "nfs traffic for efs mount targets"
+}
+
+resource "aws_security_group_rule" "nfs_egress" {
+  type              = "egress"
+  from_port         = 2049
+  to_port           = 2049
+  protocol          = "tcp"
+  self              = true
+  security_group_id = "${aws_security_group.efs.id}"
+  description       = "nfs traffic for efs mount targets"
 }
