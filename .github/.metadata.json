@@ -1,0 +1,27 @@
+{
+  "templateVersion": "0.1",
+  "product": {
+    "name": "Terraform Module for AWS Elastic File System",
+    "description": ""
+  },
+  "contacts": {
+    "team": {
+      "name": "MTS",
+      "DL": "Grp-mts-team",
+      "slackChannel": "magento-devops"
+    }
+  },
+  "ticketTracker": {
+    "functionalJiraQueue": {
+      "projectKey": "MTS",
+      "component": ""
+    },
+    "securityJiraQueue": {
+      "projectKey": "MAGREQ",
+      "component": "MAGREQ/MTS"
+    }
+  },
+  "staticScan": {
+    "enable": false
+  }
+}
