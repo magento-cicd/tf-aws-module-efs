@@ -6,7 +6,7 @@
   },
   "contacts": {
     "team": {
-      "name": "MTS",
+      "name": "ACQP",
       "DL": "Grp-mts-team",
       "slackChannel": "magento-devops"
     }
@@ -18,10 +18,11 @@
     },
     "securityJiraQueue": {
       "projectKey": "MAGREQ",
-      "component": "MAGREQ/MTS"
+      "component": "MAGREQ/ACQP"
     }
   },
   "staticScan": {
     "enable": false
-  }
+  },
+  "productionCodeBranches": ["master"]
 }
