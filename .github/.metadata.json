@@ -8,21 +8,18 @@
     "team": {
       "name": "ACQP",
       "DL": "Grp-mts-team",
-      "slackChannel": "magento-devops"
+      "slackChannel": "#magento-devops"
     }
   },
   "ticketTracker": {
     "functionalJiraQueue": {
-      "projectKey": "MTS",
+      "projectKey": "ACQP",
       "component": ""
     },
     "securityJiraQueue": {
       "projectKey": "MAGREQ",
       "component": "MAGREQ/ACQP"
     }
-  },
-  "staticScan": {
-    "enable": false
   },
   "productionCodeBranches": ["master"]
 }
